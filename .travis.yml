@@ -12,8 +12,8 @@ jobs:
         - rm -rf build
         - mkdir build
         - cd build
-        - cmake ..
-        - make
+        - pwd && cmake ..
+        - pwn && make
     - stage: test
       script:
-        - cd build && make test
+        - pwd && make test
