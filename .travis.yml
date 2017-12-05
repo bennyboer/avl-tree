@@ -1,9 +1,6 @@
 # Enable C++
 language: cpp
 
-# Dependency management
-install: make get-deps
-
 # Compiler
 compiler: gcc
 
