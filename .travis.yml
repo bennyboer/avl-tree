@@ -1,0 +1,18 @@
+# Enable C++
+language: cpp
+
+# Compiler
+compiler: gcc
+
+# Build steps
+jobs:
+  include:
+    - stage: build
+      script:
+        - rm -rf build
+        - mkdir build
+        - cd build && cmake ..
+        - cd build && make
+    - stage: test
+      script:
+        - cd build && make test
