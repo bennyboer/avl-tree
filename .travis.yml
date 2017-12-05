@@ -5,15 +5,10 @@ language: cpp
 compiler: gcc
 
 # Build steps
-jobs:
-  include:
-    - stage: build
-      script:
-        - rm -rf build
-        - mkdir build
-        - cd build
-        - pwd && cmake ..
-        - pwd && make
-    - stage: test
-      script:
-        - pwd && make test
+script:
+  - rm -rf build
+  - mkdir build
+  - cd build
+  - pwd && cmake ..
+  - pwd && make
+  - pwd && make test
