@@ -11,8 +11,9 @@ jobs:
       script:
         - rm -rf build
         - mkdir build
-        - cd build && cmake ..
-        - cd build && make
+        - cd build
+        - cmake ..
+        - make
     - stage: test
       script:
         - cd build && make test
