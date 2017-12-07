@@ -31,7 +31,8 @@ AVLTree::Node::Node(const int key) : key(key) {
 
 }
 
-AVLTree::Node::Node(const int key, AVLTree::Node *left, AVLTree::Node *right) : key(key), left(left), right(right) {
+AVLTree::Node::Node(const int key, AVLTree::Node *left, AVLTree::Node *right, AVLTree::Node *previous, int p) : key(key), left(left), right(right),
+previous(previous), balance(p) {
 
 }
 
