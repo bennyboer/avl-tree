@@ -3,15 +3,13 @@
 
 class AVLTree {
 private:
-	class Node {
-	private:
+	struct Node {
 		const int key;
 		Node *left = nullptr;
 		Node *right = nullptr;
 		Node *previous = nullptr;
         int balance = 0;
 
-	public:
 		Node(const int);
 
 		Node(const int, Node *, Node *, Node *, int);

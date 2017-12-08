@@ -13,11 +13,67 @@ AVLTree::~AVLTree() {
  */
 
 bool AVLTree::search(const int value) const {
-	return false;
+    auto helper = root;
+    while(nullptr != helper) {
+        if(helper->key == value) {
+            return true;
+        }
+        else if (value > helper->key) {
+            helper = helper->right;
+        }
+        else {
+            helper = helper->left;
+        }
+    }
+    return false;
 }
 
 void AVLTree::insert(const int value) {
+    if(search(value)) {
+        return;
+    }
+    else if (root == nullptr) {
+        root = new Node(value);
+    }
+    else {
+        auto helper = root;
+        auto helperV = helper->key;
+        while(true) {
+            if(value > helperV) {
+                if (helper->left == nullptr) {
+                    Node *tmp = new Node(value, nullptr, nullptr, helper, 0);
+                    helper->left = tmp;
+                    helper->balance -= 1;
+                    if(helper->balance == 2) {
+                        //rotation
+                    }
+                    //call upin here
+                    return;
+                }
+                else {
+                    helper = helper->left;
+                    helperV = helper->key;
+                }
+            }
+            else {
+                if (helper->right == nullptr) {
+                    Node *tmp = new Node(value, nullptr, nullptr, helper, 0);
+                    helper->right = tmp;
+                    helper->balance += 1;
+                    if(helper->balance == 2) {
+                        //double rotation
+                    }
+                    //call upin
+                    return;
+                }
+                else {
+                    helper = helper->right;
+                    helperV = helper->key;
+                }
+            }
+        }
 
+    }
 }
 
 void AVLTree::remove(const int value) {
