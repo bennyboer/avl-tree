@@ -1,3 +1,4 @@
+#include <iostream>
 #include "AVLTree.h"
 
 /*
@@ -13,15 +14,17 @@ AVLTree::~AVLTree() {
  */
 
 bool AVLTree::search(const int value) const {
-    auto helper = root;
-    while(nullptr != helper) {
+    Node* helper = root;
+    while(helper != nullptr) {
         if(helper->key == value) {
             return true;
         }
-        else if (value > helper->key) {
+        if (value > helper->key) {
             helper = helper->right;
         }
         else {
+            if (helper->left != nullptr) {
+        }
             helper = helper->left;
         }
     }
@@ -40,11 +43,10 @@ void AVLTree::insert(const int value) {
         auto helperV = helper->key;
         while(true) {
             if(value > helperV) {
-                if (helper->left == nullptr) {
-                    Node *tmp = new Node(value, nullptr, nullptr, helper, 0);
-                    helper->left = tmp;
+                if (helper->right == nullptr) {
+                    helper->right = new Node(value);
                     helper->balance -= 1;
-                    if(helper->balance == 2) {
+                    if(helper->balance == -2) {
                         //rotation
                     }
                     //call upin here
@@ -56,9 +58,9 @@ void AVLTree::insert(const int value) {
                 }
             }
             else {
-                if (helper->right == nullptr) {
+                if (helper->left == nullptr) {
                     Node *tmp = new Node(value, nullptr, nullptr, helper, 0);
-                    helper->right = tmp;
+                    helper->left = tmp;
                     helper->balance += 1;
                     if(helper->balance == 2) {
                         //double rotation

@@ -15,8 +15,8 @@ TEST(AVLTreeTest, One_Node) {
 TEST(AVLTreeTest, Two_Nodes_Lower) {
     AVLTree b;
     b.insert(12213);
-    b.insert(215);
     EXPECT_TRUE(b.search(12213));
+    b.insert(215);
     EXPECT_TRUE(b.search(215));
 }
 
