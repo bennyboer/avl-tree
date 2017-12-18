@@ -28,7 +28,7 @@ private:
 
 	Node *root = nullptr;
 
-	void upin(Node *);
+	void upIn(Node *);
 
 	void rotateRight(Node *);
 

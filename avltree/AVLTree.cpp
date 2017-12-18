@@ -56,7 +56,7 @@ void AVLTree::insert(const int value, Node *node) {
 			node->balance -= 1;
 
 			if (node->isUnbalanced()) {
-				upin(node);
+				upIn(node);
 			}
 		} else {
 			insert(value, node->left);
@@ -70,7 +70,7 @@ void AVLTree::insert(const int value, Node *node) {
 			node->balance += 1;
 
 			if (node->isUnbalanced()) {
-				upin(node);
+				upIn(node);
 			}
 		} else {
 			insert(value, node->right);
@@ -116,33 +116,36 @@ bool AVLTree::Node::isUnbalanced() const {
 	return balance != 0;
 }
 
-void AVLTree::upin(AVLTree::Node *element) {
+void AVLTree::upIn(AVLTree::Node *element) {
 	if (element != nullptr && element->previous != nullptr) {
 		Node *previous = element->previous;
+
 		if (element == previous->left) {
+			// Left node tree grew by one
+
 			if (element->balance == -1 && previous->balance == -1) {
 				rotateRight(previous);
 			} else if (element->balance == 1 && previous->balance == -1) {
 				//rotateLeftRight();
 			} else if (previous->balance == 0) {
 				previous->balance = -1;
-				upin(previous);
+				upIn(previous);
 			} else if (previous->balance == 1) {
 				previous->balance = 0;
 			}
-			return;
 		} else {
+			// Right node tree grew by one
+
 			if (element->balance == -1 && previous->balance == -1) {
 				//rotateLeft();
 			} else if (element->balance == 1 && previous->balance == -1) {
 				//rotateRightLeft();
 			} else if (previous->balance == 0) {
 				previous->balance = 1;
-				upin(previous);
+				upIn(previous);
 			} else if (previous->balance == 1) {
 				previous->balance = 0;
 			}
-			return;
 		}
 	}
 }
