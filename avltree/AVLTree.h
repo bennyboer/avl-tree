@@ -17,6 +17,7 @@ private:
 		~Node();
 
 		bool hasChildren() const;
+		bool isUnbalanced() const;
 	};
 
 	Node *root = nullptr;
@@ -31,6 +32,10 @@ private:
 
     void rotateRightLeft(Node *);
 
+	bool search(const int value, const Node *node) const;
+
+	void insert(const int value, Node *node);
+
 public:
 	~AVLTree();
 
@@ -39,6 +44,7 @@ public:
 	void insert(const int value);
 
 	void remove(const int value);
+
 };
 
 #endif //AVLTREE_AVLTREE_H
