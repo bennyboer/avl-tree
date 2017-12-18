@@ -79,7 +79,85 @@ void AVLTree::insert(const int value, Node *node) {
 }
 
 void AVLTree::remove(const int value) {
+	if (root != nullptr) {
+		remove(value, root);
+	}
+}
 
+void AVLTree::remove(const int value, Node *node) {
+	if (node->key == value) {
+		if (node->left == nullptr && node->right == nullptr) {
+			if (node->previous != nullptr) {
+				if (node->previous->left == node) {
+					node->previous->left = nullptr;
+				} else if (node->previous->right == node) {
+					node->previous->right = nullptr;
+				}
+			} else {
+				root = nullptr;
+			}
+
+			delete node;
+		} else if (node->left == nullptr && node->right != nullptr) {
+			if (node->previous != nullptr) {
+				if (node->previous->left == node) {
+					node->previous->left = node->right;
+				} else if (node->previous->right == node) {
+					node->previous->right = node->right;
+				}
+			} else {
+				root = node->right;
+			}
+
+			node->right = nullptr;
+			delete node;
+		} else if (node->right == nullptr && node->left != nullptr) {
+			if (node->previous != nullptr) {
+				if (node->previous->left == node) {
+					node->previous->left = node->left;
+				} else if (node->previous->right == node) {
+					node->previous->right = node->left;
+				}
+			} else {
+				root = node->left;
+			}
+
+			node->left = nullptr;
+			delete node;
+		} else {
+			// Find symmetric follower.
+			Node *follower = node->right;
+			while (follower->left != nullptr) {
+				follower = follower->left;
+			}
+
+			// Cache key
+			int key = follower->key;
+
+			// Remove symmetric follower.
+			remove(follower->key, follower);
+
+			// Exchange node with follower node
+			auto newNode = new Node(key, node->left, node->right, node->previous, node->balance);
+			if (node->previous != nullptr) {
+				if (node->previous->left == node) {
+					node->previous->left = newNode;
+				} else if (node->previous->right == node) {
+					node->previous->right = newNode;
+				}
+			} else {
+				root = newNode;
+			}
+
+			node->left = nullptr;
+			node->right = nullptr;
+			delete node;
+		}
+	} else if (node->key > value) {
+		remove(value, node->left);
+	} else if (node->key < value) {
+		remove(value, node->right);
+	}
 }
 
 /*
@@ -123,31 +201,37 @@ void AVLTree::upIn(AVLTree::Node *element) {
 		if (element == previous->left) {
 			// Left node tree grew by one
 
-			if (element->balance == -1 && previous->balance == -1) {
-				rotateRight(previous);
-			} else if (element->balance == 1 && previous->balance == -1) {
-				rotateLeft(previous);
-				rotateRight(previous);
+			if (previous->balance == -1) {
+				if (element->balance == -1) {
+					rotateRight(previous);
+				} else {
+					rotateLeft(element);
+					rotateRight(previous);
+				}
 			} else if (previous->balance == 0) {
 				previous->balance = -1;
 				upIn(previous);
-			} else if (previous->balance == 1) {
+			} else {
 				previous->balance = 0;
 			}
+
 		} else {
 			// Right node tree grew by one
 
-			if (element->balance == 1 && previous->balance == 1) {
-				rotateLeft(previous);
-			} else if (element->balance == -1 && previous->balance == 1) {
-				rotateRight(previous);
-				rotateLeft(previous);
+			if (previous->balance == 1) {
+				if (element->balance == 1) {
+					rotateLeft(previous);
+				} else {
+					rotateRight(element);
+					rotateLeft(previous);
+				}
 			} else if (previous->balance == 0) {
 				previous->balance = 1;
 				upIn(previous);
-			} else if (previous->balance == 1) {
+			} else {
 				previous->balance = 0;
 			}
+
 		}
 	}
 }
@@ -200,8 +284,8 @@ void AVLTree::rotateLeft(Node *head) {
 	head->previous = right;
 
 	// Update balance.
-	head->balance = 1;
-	right->balance = 1;
+	head->balance = 0;
+	right->balance = 0;
 }
 
 std::vector<int> *AVLTree::preorder() const {

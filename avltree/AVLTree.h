@@ -38,6 +38,8 @@ private:
 
 	void insert(const int value, Node *node);
 
+	void remove(const int value, Node *node);
+
 public:
 	~AVLTree();
 
