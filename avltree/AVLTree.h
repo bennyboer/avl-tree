@@ -21,6 +21,8 @@ private:
 
 	Node *root = nullptr;
 
+    void upin(Node *);
+
 public:
 	~AVLTree();
 

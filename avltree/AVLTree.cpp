@@ -46,10 +46,7 @@ void AVLTree::insert(const int value) {
                 if (helper->right == nullptr) {
                     helper->right = new Node(value);
                     helper->balance -= 1;
-                    if(helper->balance == -2) {
-                        //rotation
-                    }
-                    //call upin here
+                    AVLTree::upin(helper);
                     return;
                 }
                 else {
@@ -62,10 +59,7 @@ void AVLTree::insert(const int value) {
                     Node *tmp = new Node(value, nullptr, nullptr, helper, 0);
                     helper->left = tmp;
                     helper->balance += 1;
-                    if(helper->balance == 2) {
-                        //double rotation
-                    }
-                    //call upin
+                    AVLTree::upin(helper);
                     return;
                 }
                 else {
@@ -106,4 +100,41 @@ AVLTree::Node::~Node() {
 
 bool AVLTree::Node::hasChildren() const {
 	return left != nullptr || right != nullptr;
+}
+
+void AVLTree::upin(AVLTree::Node *element) {
+    if(element != nullptr && element->previous != nullptr) {
+        Node *previous = element->previous;
+        if(element == previous->left) {
+            if(element->balance == -1 && previous->balance == -1) {
+                //rotateRight();
+                previous->balance = 0;
+            } else if(element->balance == 1 && previous->balance == -1) {
+                //rotateLeftRight();
+                previous->balance = 0;
+            } else if(previous->balance == 0) {
+                previous->balance = -1;
+                upin(previous);
+            } else if(previous->balance == 1) {
+                previous->balance = 0;
+            }
+            return;
+        }
+        else {
+            if(element->balance == -1 && previous->balance == -1) {
+                //rotateLeft();
+                previous->balance = 0;
+            } else if(element->balance == 1 && previous->balance == -1) {
+                //rotateRightLeft();
+                previous->balance = 0;
+            } else if(previous->balance == 0) {
+                previous->balance = 1;
+                upin(previous);
+            } else if(previous->balance == 1) {
+                previous->balance = 0;
+            }
+            return;
+        }
+    }
+
 }
