@@ -36,7 +36,7 @@ bool AVLTree::search(const int value, const Node *node) const {
 void AVLTree::insert(const int value) {
 	if (root == nullptr) {
 		// Insert root node.
-		root = new Node(value);
+		root = new Node(value, nullptr);
 	}
 
 	insert(value, root);
@@ -50,7 +50,7 @@ void AVLTree::insert(const int value, Node *node) {
 	if (node->key > value) {
 		if (node->left == nullptr) {
 			// Insert node.
-			node->left = new Node(value);
+			node->left = new Node(value, node);
 
 			// Adjust balance.
 			node->balance -= 1;
@@ -64,7 +64,7 @@ void AVLTree::insert(const int value, Node *node) {
 	} else if (node->key < value) {
 		if (node->right == nullptr) {
 			// Insert node.
-			node->right = new Node(value);
+			node->right = new Node(value, node);
 
 			// Adjust balance.
 			node->balance += 1;
@@ -85,7 +85,7 @@ void AVLTree::remove(const int value) {
 /*
  * NODE CONSTRUCTORS AND DESTRUCTOR
  */
-AVLTree::Node::Node(const int key) : key(key) {
+AVLTree::Node::Node(const int key, Node *parent) : key(key), previous(parent) {
 
 }
 
@@ -126,7 +126,8 @@ void AVLTree::upIn(AVLTree::Node *element) {
 			if (element->balance == -1 && previous->balance == -1) {
 				rotateRight(previous);
 			} else if (element->balance == 1 && previous->balance == -1) {
-				//rotateLeftRight();
+				rotateLeft(previous);
+				rotateRight(previous);
 			} else if (previous->balance == 0) {
 				previous->balance = -1;
 				upIn(previous);
@@ -136,10 +137,11 @@ void AVLTree::upIn(AVLTree::Node *element) {
 		} else {
 			// Right node tree grew by one
 
-			if (element->balance == -1 && previous->balance == -1) {
-				//rotateLeft();
-			} else if (element->balance == 1 && previous->balance == -1) {
-				//rotateRightLeft();
+			if (element->balance == 1 && previous->balance == 1) {
+				rotateLeft(previous);
+			} else if (element->balance == -1 && previous->balance == 1) {
+				rotateRight(previous);
+				rotateLeft(previous);
 			} else if (previous->balance == 0) {
 				previous->balance = 1;
 				upIn(previous);
@@ -151,33 +153,55 @@ void AVLTree::upIn(AVLTree::Node *element) {
 }
 
 void AVLTree::rotateRight(Node *head) {
-	Node *headPrev = head->previous;
-	Node *element = head->left;
-	Node *insertRight = element->right;
+	auto previous = head->previous;
+	auto left = head->left;
 
-	element->previous = headPrev;
-	head->left = insertRight;
-	element->right = head;
-	head->previous = element;
-	head->balance = 0;
-	element->balance = 0;
-	if (headPrev->key < head->key) {
-		headPrev->right = element;
-	} else if (headPrev->key > head->key) {
-		headPrev->left = element;
+	// Switch position
+	if (previous == nullptr) {
+		root = left;
+		left->previous = nullptr;
+	} else {
+		if (previous->left == head) {
+			previous->left = left;
+		} else {
+			previous->right = left;
+		}
+		left->previous = previous;
 	}
+
+	head->left = left->right;
+	left->right = head;
+	head->previous = left;
+
+	// Update balance.
+	head->balance = 0;
+	left->balance = 0;
 }
 
-void AVLTree::rotateLeft(Node *) {
+void AVLTree::rotateLeft(Node *head) {
+	auto previous = head->previous;
+	auto right = head->right;
 
-}
+	// Switch position
+	if (previous == nullptr) {
+		root = right;
+		right->previous = nullptr;
+	} else {
+		if (previous->left == head) {
+			previous->left = right;
+		} else {
+			previous->right = right;
+		}
+		right->previous = previous;
+	}
 
-void AVLTree::rotateLeftRight(Node *) {
+	head->right = right->left;
+	right->left = head;
+	head->previous = right;
 
-}
-
-void AVLTree::rotateRightLeft(Node *) {
-
+	// Update balance.
+	head->balance = 1;
+	right->balance = 1;
 }
 
 std::vector<int> *AVLTree::preorder() const {

@@ -10,7 +10,7 @@ private:
 		Node *previous = nullptr;
 		int balance = 0;
 
-		Node(const int);
+		Node(const int, Node *parent);
 
 		Node(const int, Node *, Node *, Node *, int);
 
@@ -33,10 +33,6 @@ private:
 	void rotateRight(Node *);
 
 	void rotateLeft(Node *);
-
-	void rotateLeftRight(Node *);
-
-	void rotateRightLeft(Node *);
 
 	bool search(const int value, const Node *node) const;
 
