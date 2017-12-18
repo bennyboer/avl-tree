@@ -8,7 +8,7 @@ private:
 		Node *left = nullptr;
 		Node *right = nullptr;
 		Node *previous = nullptr;
-        int balance = 0;
+		int balance = 0;
 
 		Node(const int);
 
@@ -17,20 +17,26 @@ private:
 		~Node();
 
 		bool hasChildren() const;
+
 		bool isUnbalanced() const;
+
+		std::vector<int> *preorder() const;  // (Hauptreihenfolge)
+		std::vector<int> *inorder() const;   // (Symmetrische Reihenfolge)
+		std::vector<int> *postorder() const; // (Nebenreihenfolge)
+
 	};
 
 	Node *root = nullptr;
 
-    void upin(Node *);
+	void upin(Node *);
 
-    void rotateRight(Node *);
+	void rotateRight(Node *);
 
-    void rotateLeft(Node *);
+	void rotateLeft(Node *);
 
-    void rotateLeftRight(Node *);
+	void rotateLeftRight(Node *);
 
-    void rotateRightLeft(Node *);
+	void rotateRightLeft(Node *);
 
 	bool search(const int value, const Node *node) const;
 
@@ -44,6 +50,12 @@ public:
 	void insert(const int value);
 
 	void remove(const int value);
+
+	std::vector<int> *preorder() const;  // (Hauptreihenfolge)
+	std::vector<int> *inorder() const;   // (Symmetrische Reihenfolge)
+	std::vector<int> *postorder() const; // (Nebenreihenfolge)
+
+	friend std::ostream &operator<<(std::ostream &, const AVLTree &);
 
 };
 
