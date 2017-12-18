@@ -136,7 +136,7 @@ void AVLTree::upin(AVLTree::Node *element) {
 
 void AVLTree::rotateRight(Node *head) {
     Node *headPrev = head->previous;
-    Node *element = head->left
+    Node *element = head->left;
     Node *insertRight = element->right;
 
     element->previous = headPrev;
@@ -153,8 +153,14 @@ void AVLTree::rotateRight(Node *head) {
     }
 }
 
-void AVLTree::rotateLeft(Node *);
+void AVLTree::rotateLeft(Node *) {
 
-void AVLTree::rotateLeftRight(Node *);
+}
 
-void AVLTree::rotateRightLeft(Node *);
+void AVLTree::rotateLeftRight(Node *){
+
+}
+
+void AVLTree::rotateRightLeft(Node *) {
+    
+}
