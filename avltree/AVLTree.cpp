@@ -107,11 +107,9 @@ void AVLTree::upin(AVLTree::Node *element) {
         Node *previous = element->previous;
         if(element == previous->left) {
             if(element->balance == -1 && previous->balance == -1) {
-                //rotateRight();
-                previous->balance = 0;
+                rotateRight(previous);
             } else if(element->balance == 1 && previous->balance == -1) {
                 //rotateLeftRight();
-                previous->balance = 0;
             } else if(previous->balance == 0) {
                 previous->balance = -1;
                 upin(previous);
@@ -123,10 +121,8 @@ void AVLTree::upin(AVLTree::Node *element) {
         else {
             if(element->balance == -1 && previous->balance == -1) {
                 //rotateLeft();
-                previous->balance = 0;
             } else if(element->balance == 1 && previous->balance == -1) {
                 //rotateRightLeft();
-                previous->balance = 0;
             } else if(previous->balance == 0) {
                 previous->balance = 1;
                 upin(previous);
@@ -136,5 +132,29 @@ void AVLTree::upin(AVLTree::Node *element) {
             return;
         }
     }
-
 }
+
+void AVLTree::rotateRight(Node *head) {
+    Node *headPrev = head->previous;
+    Node *element = head->left
+    Node *insertRight = element->right;
+
+    element->previous = headPrev;
+    head->left  = insertRight;
+    element->right = head;
+    head->previous = element;
+    head->balance = 0;
+    element->balance = 0;
+    if(headPrev->key < head->key) {
+        headPrev->right = element;
+    }
+    else if (headPrev->key > head->key) {
+        headPrev->left = element;
+    }
+}
+
+void AVLTree::rotateLeft(Node *);
+
+void AVLTree::rotateLeftRight(Node *);
+
+void AVLTree::rotateRightLeft(Node *);

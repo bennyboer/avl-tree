@@ -23,6 +23,14 @@ private:
 
     void upin(Node *);
 
+    void rotateRight(Node *);
+
+    void rotateLeft(Node *);
+
+    void rotateLeftRight(Node *);
+
+    void rotateRightLeft(Node *);
+
 public:
 	~AVLTree();
 
