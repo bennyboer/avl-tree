@@ -1,8 +1,17 @@
+dist: trusty
+sudo: required
+
 # Enable C++
 language: cpp
 
 # Compiler
 compiler: gcc
+
+addons:
+  sonarcloud:
+    organization: "Algodat I"
+    token:
+      secure: "Tws6h9jNH3C1xEKEulEfNn0hV9S84MDHLI/elyR1Rrh4AfOSGJoNBuU1sSezvF/mvKgPFupSNIIGnHU9jYQcBV6RYufQjRHnoMQWIYsy6SM3yDbz4W5NCqed23xhgDc2+e1wvHmWn1yYo5K4r7koIaGpIBdmfpCGSHUM2LCb8xVpVwN8+8bpWPj0NOhnb2t7P1Fy+R3vRNUnFxjXl3RGTwsutBAzQiUgHn0LN2bROwurVJQasn9nQz1dkDPGwzR7FigKvHjCFRJlTNR2FhjF6mOmQoJhVOnNGKyr8NQ05pAbKPEnywDNkC0bP6OvufWZdpxmgkhrPXBpo+wgqFueug0g/x5JdFGoEsrjWLeZ4f6wMj1hGtnzJXj9CAn9G25kaFkKFZi0zAff4uwNIbRJnNvyoYB39FialEGt7cbpIKI23qFloDyjUlDbcFtjc1iOIMWPEwXjeXrRcmBlAasjdKhf3Wix9xwr1pSRMgnvQWvzr2Sar6/psI4kR62nQtd2tZxd1zO+2FOhHEKIpO9uvqJyRIJpdQs5e8VBbxqYulQeVruiUeiKNBG7Fvz0WTnmGY3s+f/iQwHOadAwjEsHOvLzqPWhZeSumU8fulNSGkKA5V+jLfVsn7fm5165HOvxJrr8CyVIvzjWm4UYJX4O2nj1k+PhlL7r6TkWBRaLngw="
 
 # Build steps
 script:
@@ -12,3 +21,9 @@ script:
   - pwd && cmake ..
   - pwd && make
   - pwd && make test
+  - build-wrapper-linux-x86-64 --out-dir bw-output make clean all
+  - sonar-scanner
+
+cache:
+  directories:
+    - '$HOME/.sonar/cache'
