@@ -87,77 +87,84 @@ void AVLTree::remove(const int value) {
 void AVLTree::remove(const int value, Node *node) {
 	if (node->key == value) {
 		if (node->left == nullptr && node->right == nullptr) {
-			if (node->previous != nullptr) {
-				if (node->previous->left == node) {
-					node->previous->left = nullptr;
-				} else if (node->previous->right == node) {
-					node->previous->right = nullptr;
-				}
-			} else {
-				root = nullptr;
-			}
-
-			delete node;
+			removeNodeBothLeaf(node);
 		} else if (node->left == nullptr && node->right != nullptr) {
-			if (node->previous != nullptr) {
-				if (node->previous->left == node) {
-					node->previous->left = node->right;
-				} else if (node->previous->right == node) {
-					node->previous->right = node->right;
-				}
-			} else {
-				root = node->right;
-			}
-
-			node->right = nullptr;
-			delete node;
+			removeNodeOneLeaf(node, false);
 		} else if (node->right == nullptr && node->left != nullptr) {
-			if (node->previous != nullptr) {
-				if (node->previous->left == node) {
-					node->previous->left = node->left;
-				} else if (node->previous->right == node) {
-					node->previous->right = node->left;
-				}
-			} else {
-				root = node->left;
-			}
-
-			node->left = nullptr;
-			delete node;
+			removeNodeOneLeaf(node, true);
 		} else {
-			// Find symmetric follower.
-			Node *follower = node->right;
-			while (follower->left != nullptr) {
-				follower = follower->left;
-			}
-
-			// Cache key
-			int key = follower->key;
-
-			// Remove symmetric follower.
-			remove(follower->key, follower);
-
-			// Exchange node with follower node
-			auto newNode = new Node(key, node->left, node->right, node->previous, node->balance);
-			if (node->previous != nullptr) {
-				if (node->previous->left == node) {
-					node->previous->left = newNode;
-				} else if (node->previous->right == node) {
-					node->previous->right = newNode;
-				}
-			} else {
-				root = newNode;
-			}
-
-			node->left = nullptr;
-			node->right = nullptr;
-			delete node;
+			removeNodeNoLeaf(node);
 		}
 	} else if (node->key > value) {
 		remove(value, node->left);
 	} else if (node->key < value) {
 		remove(value, node->right);
 	}
+}
+
+void AVLTree::removeNodeBothLeaf(Node *toRemove) {
+	if (toRemove->previous != nullptr) {
+		if (toRemove->previous->left == toRemove) {
+			toRemove->previous->left = nullptr;
+		} else if (toRemove->previous->right == toRemove) {
+			toRemove->previous->right = nullptr;
+		}
+	} else {
+		root = nullptr;
+	}
+
+	delete toRemove;
+}
+
+void AVLTree::removeNodeOneLeaf(Node *toRemove, bool isLeft) {
+	if (toRemove->previous != nullptr) {
+		if (toRemove->previous->left == toRemove) {
+			toRemove->previous->left = isLeft ? toRemove->left : toRemove->right;
+		} else if (toRemove->previous->right == toRemove) {
+			toRemove->previous->right = isLeft ? toRemove->left : toRemove->right;
+		}
+	} else {
+		root = isLeft ? toRemove->left : toRemove->right;
+	}
+
+	if (isLeft) {
+		toRemove->left = nullptr;
+	} else {
+		toRemove->right = nullptr;
+	}
+
+	delete toRemove;
+}
+
+void AVLTree::removeNodeNoLeaf(Node *toRemove) {
+	// Find symmetric follower.
+	Node *follower = toRemove->right;
+	while (follower->left != nullptr) {
+		follower = follower->left;
+	}
+
+	// Cache key
+	int key = follower->key;
+
+	// Remove symmetric follower.
+	remove(follower->key, follower);
+
+	// Exchange node with follower node
+	auto newNode = new Node(key, toRemove->left, toRemove->right, toRemove->previous, toRemove->balance);
+	if (toRemove->previous != nullptr) {
+		if (toRemove->previous->left == toRemove) {
+			toRemove->previous->left = newNode;
+		} else if (toRemove->previous->right == toRemove) {
+			toRemove->previous->right = newNode;
+		}
+	} else {
+		root = newNode;
+	}
+
+	toRemove->left = nullptr;
+	toRemove->right = nullptr;
+
+	delete toRemove;
 }
 
 /*
@@ -167,13 +174,16 @@ AVLTree::Node::Node(const int key, Node *parent) : key(key), previous(parent) {
 
 }
 
-AVLTree::Node::Node(const int key, AVLTree::Node *left, AVLTree::Node *right, AVLTree::Node *previous, int p) : key(
-		key),
-																												left(left),
-																												right(right),
-																												previous(
-																														previous),
-																												balance(p) {
+AVLTree::Node::Node(const int key,
+					AVLTree::Node *left,
+					AVLTree::Node *right,
+					AVLTree::Node *previous,
+					int p) : key(key),
+							 left(left),
+							 right(right),
+							 previous(previous),
+							 balance(p) {
+
 }
 
 AVLTree::Node::~Node() {

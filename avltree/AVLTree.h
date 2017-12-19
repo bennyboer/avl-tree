@@ -40,6 +40,10 @@ private:
 
 	void remove(const int value, Node *node);
 
+	void removeNodeBothLeaf(Node *toRemove);
+	void removeNodeOneLeaf(Node *toRemove, bool isLeft);
+	void removeNodeNoLeaf(Node *toRemove);
+
 public:
 	~AVLTree();
 
