@@ -183,8 +183,6 @@ void AVLTree::removeNodeBothLeaf(Node *toRemove) {
 				rotateLeft(brotherTree);
 				rotateRight(toRemove->previous);
 			}
-
-			upOut(toRemove->previous);
 		} else if (newBalance == 2) {
 			// Check if single rotate or double rotate
 			auto brotherTree = toRemove->previous->right;
@@ -195,8 +193,6 @@ void AVLTree::removeNodeBothLeaf(Node *toRemove) {
 				rotateRight(brotherTree);
 				rotateLeft(toRemove->previous);
 			}
-
-			upOut(toRemove->previous);
 		}
 	} else {
 		root = nullptr;
