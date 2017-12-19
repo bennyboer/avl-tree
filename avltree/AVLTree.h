@@ -30,6 +30,8 @@ private:
 
 	void upIn(Node *);
 
+	void upOut(Node *);
+
 	void rotateRight(Node *);
 
 	void rotateLeft(Node *);

@@ -3,17 +3,59 @@
 #include <vector>
 #include "AVLTree.h"
 
-/*
- * TREE CONSTRUCTORS AND DESTRUCTOR
- */
+/********************************************************************
+ * Tree Constructor(s) / Destructor(s)
+ *******************************************************************/
+
 AVLTree::~AVLTree() {
 	// Delete root node.
 	delete root;
 }
 
-/*
- * TREE METHODS
- */
+
+/********************************************************************
+ * Node constructor(s) / destructor(s)
+ *******************************************************************/
+
+AVLTree::Node::Node(const int key, Node *parent) : key(key), previous(parent) {
+
+}
+
+AVLTree::Node::Node(const int key,
+					AVLTree::Node *left,
+					AVLTree::Node *right,
+					AVLTree::Node *previous,
+					int p) : key(key),
+							 left(left),
+							 right(right),
+							 previous(previous),
+							 balance(p) {
+
+}
+
+AVLTree::Node::~Node() {
+	// Delete all nodes recursively.
+	delete left;
+	delete right;
+}
+
+
+/********************************************************************
+ * Node methods
+ *******************************************************************/
+
+bool AVLTree::Node::hasChildren() const {
+	return left != nullptr || right != nullptr;
+}
+
+bool AVLTree::Node::isUnbalanced() const {
+	return balance != 0;
+}
+
+
+/********************************************************************
+ * Tree Search
+ *******************************************************************/
 
 bool AVLTree::search(const int value) const {
 	return search(value, root);
@@ -32,6 +74,11 @@ bool AVLTree::search(const int value, const Node *node) const {
 		return search(value, node->right);
 	}
 }
+
+
+/********************************************************************
+ * Tree Insert
+ *******************************************************************/
 
 void AVLTree::insert(const int value) {
 	if (root == nullptr) {
@@ -78,6 +125,11 @@ void AVLTree::insert(const int value, Node *node) {
 	}
 }
 
+
+/********************************************************************
+ * Tree remove
+ *******************************************************************/
+
 void AVLTree::remove(const int value) {
 	if (root != nullptr) {
 		remove(value, root);
@@ -86,7 +138,7 @@ void AVLTree::remove(const int value) {
 
 void AVLTree::remove(const int value, Node *node) {
 	if (node->key == value) {
-		if (node->left == nullptr && node->right == nullptr) {
+		if (!node->hasChildren()) {
 			removeNodeBothLeaf(node);
 		} else if (node->left == nullptr && node->right != nullptr) {
 			removeNodeOneLeaf(node, false);
@@ -167,42 +219,10 @@ void AVLTree::removeNodeNoLeaf(Node *toRemove) {
 	delete toRemove;
 }
 
-/*
- * NODE CONSTRUCTORS AND DESTRUCTOR
- */
-AVLTree::Node::Node(const int key, Node *parent) : key(key), previous(parent) {
 
-}
-
-AVLTree::Node::Node(const int key,
-					AVLTree::Node *left,
-					AVLTree::Node *right,
-					AVLTree::Node *previous,
-					int p) : key(key),
-							 left(left),
-							 right(right),
-							 previous(previous),
-							 balance(p) {
-
-}
-
-AVLTree::Node::~Node() {
-	// Delete all nodes recursively.
-	delete left;
-	delete right;
-}
-
-/*
- * NODE METHODS
- */
-
-bool AVLTree::Node::hasChildren() const {
-	return left != nullptr || right != nullptr;
-}
-
-bool AVLTree::Node::isUnbalanced() const {
-	return balance != 0;
-}
+/********************************************************************
+ * Tree balance methods
+ *******************************************************************/
 
 void AVLTree::upIn(AVLTree::Node *element) {
 	if (element != nullptr && element->previous != nullptr) {
@@ -245,6 +265,15 @@ void AVLTree::upIn(AVLTree::Node *element) {
 		}
 	}
 }
+
+void AVLTree::upOut(Node *) {
+
+}
+
+
+/********************************************************************
+ * Rotate methods
+ *******************************************************************/
 
 void AVLTree::rotateRight(Node *head) {
 	auto previous = head->previous;
@@ -297,6 +326,11 @@ void AVLTree::rotateLeft(Node *head) {
 	head->balance = 0;
 	right->balance = 0;
 }
+
+
+/********************************************************************
+ * Orders
+ *******************************************************************/
 
 std::vector<int> *AVLTree::preorder() const {
 	if (root == nullptr)
@@ -367,9 +401,11 @@ std::vector<int> *AVLTree::Node::postorder() const {
 	return vec;
 }
 
+
 /********************************************************************
  * operator<<
  *******************************************************************/
+
 std::ostream &operator<<(std::ostream &os, const AVLTree &tree) {
 	std::function<void(std::ostream &, const int, const AVLTree::Node *node, const std::string)> printToOs
 			= [&](std::ostream &os, const int value, const AVLTree::Node *node, const std::string l) {
