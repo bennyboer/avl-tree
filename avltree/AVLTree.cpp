@@ -156,10 +156,47 @@ void AVLTree::remove(const int value, Node *node) {
 
 void AVLTree::removeNodeBothLeaf(Node *toRemove) {
 	if (toRemove->previous != nullptr) {
+		int newBalance = toRemove->previous->balance;
+
 		if (toRemove->previous->left == toRemove) {
 			toRemove->previous->left = nullptr;
+
+			// Modify balance of previous node.
+			newBalance += 1;
 		} else if (toRemove->previous->right == toRemove) {
 			toRemove->previous->right = nullptr;
+
+			// Modify balance of previous node.
+			newBalance -= 1;
+		}
+
+		if (newBalance == 0) {
+			toRemove->previous->balance = newBalance;
+			upOut(toRemove->previous);
+		} else if (newBalance == -2) {
+			// Check if single rotate or double rotate
+			auto brotherTree = toRemove->previous->left;
+
+			if (brotherTree->right == nullptr) {
+				rotateRight(brotherTree);
+			} else {
+				rotateLeft(brotherTree);
+				rotateRight(toRemove->previous);
+			}
+
+			upOut(toRemove->previous);
+		} else if (newBalance == 2) {
+			// Check if single rotate or double rotate
+			auto brotherTree = toRemove->previous->right;
+
+			if (brotherTree->left == nullptr) {
+				rotateLeft(brotherTree);
+			} else {
+				rotateRight(brotherTree);
+				rotateLeft(toRemove->previous);
+			}
+
+			upOut(toRemove->previous);
 		}
 	} else {
 		root = nullptr;
@@ -224,18 +261,18 @@ void AVLTree::removeNodeNoLeaf(Node *toRemove) {
  * Tree balance methods
  *******************************************************************/
 
-void AVLTree::upIn(AVLTree::Node *element) {
-	if (element != nullptr && element->previous != nullptr) {
-		Node *previous = element->previous;
+void AVLTree::upIn(Node *node) {
+	if (node != nullptr && node->previous != nullptr) {
+		Node *previous = node->previous;
 
-		if (element == previous->left) {
+		if (node == previous->left) {
 			// Left node tree grew by one
 
 			if (previous->balance == -1) {
-				if (element->balance == -1) {
+				if (node->balance == -1) {
 					rotateRight(previous);
 				} else {
-					rotateLeft(element);
+					rotateLeft(node);
 					rotateRight(previous);
 				}
 			} else if (previous->balance == 0) {
@@ -249,10 +286,10 @@ void AVLTree::upIn(AVLTree::Node *element) {
 			// Right node tree grew by one
 
 			if (previous->balance == 1) {
-				if (element->balance == 1) {
+				if (node->balance == 1) {
 					rotateLeft(previous);
 				} else {
-					rotateRight(element);
+					rotateRight(node);
 					rotateLeft(previous);
 				}
 			} else if (previous->balance == 0) {
@@ -266,7 +303,7 @@ void AVLTree::upIn(AVLTree::Node *element) {
 	}
 }
 
-void AVLTree::upOut(Node *) {
+void AVLTree::upOut(Node *node) {
 
 }
 
@@ -297,8 +334,8 @@ void AVLTree::rotateRight(Node *head) {
 	head->previous = left;
 
 	// Update balance.
-	head->balance = 0;
-	left->balance = 0;
+	head->balance += 1;
+	left->balance += 1;
 }
 
 void AVLTree::rotateLeft(Node *head) {
@@ -323,8 +360,8 @@ void AVLTree::rotateLeft(Node *head) {
 	head->previous = right;
 
 	// Update balance.
-	head->balance = 0;
-	right->balance = 0;
+	head->balance -= 1;
+	right->balance -= 1;
 }
 
 
