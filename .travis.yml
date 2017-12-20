@@ -17,11 +17,11 @@ addons:
 script:
   - rm -rf build
   - mkdir build
+  - cp sonar-project.properties build/
   - cd build
   - pwd && cmake ..
   - pwd && make
   - pwd && make test
-  - cd ..
   - build-wrapper-linux-x86-64 --out-dir bw-output make clean all
   - sonar-scanner
 
