@@ -17,10 +17,9 @@ script:
   - mkdir build
   - cp sonar-project.properties build/
   - cd build
-  - pwd && cmake ..
-  - pwd && make
-  - pwd && make test
-  - build-wrapper-linux-x86-64 --out-dir bw-output make clean all
+  - cmake ..
+  - make
+  - build-wrapper-linux-x86-64 --out-dir bw-output make all
   - make test
   - sonar-scanner -Dsonar.login=$SONAR_TOKEN
 
