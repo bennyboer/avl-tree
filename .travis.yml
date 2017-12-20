@@ -21,6 +21,9 @@ script:
   - pwd && make
   - pwd && make test
   - build-wrapper-linux-x86-64 --out-dir bw-output make clean all
+  - cd bw-output
+  - cp -r avltree sonar/
+  - cp -r test sonar/
   - sonar-scanner -Dsonar.login=$SONAR_TOKEN
 
 cache:
