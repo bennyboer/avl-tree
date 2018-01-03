@@ -32,10 +32,10 @@ before_script:
 
 # Build steps
 script:
-  - pwd && make
-  - test/testAVLTree
   - build-wrapper-linux-x86-64 --out-dir bw-output make clean all
   - sonar-scanner -Dsonar.login=$SONAR_TOKEN
+  - pwd && make
+  - test/testAVLTree
 
 after_success:
   - coveralls --root .. -E ".*googletest-src.*" -E ".*gtest.*" -E ".*external.*" -E ".*CMakeFiles.*" -E ".*test/.*.cpp.*"
