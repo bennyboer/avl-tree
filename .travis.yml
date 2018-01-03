@@ -10,18 +10,35 @@ compiler: gcc
 addons:
   sonarcloud:
     organization: "algodat1"
+  apt:
+    packages:
+      - graphviz
+      - doxygen
+      - doxygen-gui
+      - doxygen-doc
+      - doxygen-latex
+    sources:
+      - ubuntu-toolchain-r-test
 
-# Build steps
-script:
+before_install:
+  - pip install --user cpp-coveralls
+
+before_script:
   - rm -rf build
   - mkdir build
   - cp sonar-project.properties build/
   - cd build
   - pwd && cmake ..
+
+# Build steps
+script:
   - pwd && make
-  - pwd && make test
+  - test/testAVLTree
   - build-wrapper-linux-x86-64 --out-dir bw-output make clean all
   - sonar-scanner -Dsonar.login=$SONAR_TOKEN
+
+after_success:
+  - coveralls --root .. -E ".*googletest-src.*" -E ".*gtest.*" -E ".*external.*" -E ".*CMakeFiles.*" -E ".*test/.*.cpp.*"
 
 cache:
   directories:
