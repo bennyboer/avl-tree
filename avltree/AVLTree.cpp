@@ -48,8 +48,8 @@ bool AVLTree::Node::hasChildren() const {
 	return left != nullptr || right != nullptr;
 }
 
-bool AVLTree::Node::isUnbalanced() const {
-	return balance != 0;
+bool AVLTree::Node::isBalanced() const {
+	return balance == 0;
 }
 
 
@@ -102,7 +102,7 @@ void AVLTree::insert(const int value, Node *node) {
 			// Adjust balance.
 			node->balance -= 1;
 
-			if (node->isUnbalanced()) {
+			if (!node->isBalanced()) {
 				upIn(node);
 			}
 		} else {
@@ -116,7 +116,7 @@ void AVLTree::insert(const int value, Node *node) {
 			// Adjust balance.
 			node->balance += 1;
 
-			if (node->isUnbalanced()) {
+			if (!node->isBalanced()) {
 				upIn(node);
 			}
 		} else {
@@ -175,23 +175,35 @@ void AVLTree::removeNodeBothLeaf(Node *toRemove) {
 			upOut(toRemove->previous);
 		} else if (newBalance == -2) {
 			// Check if single rotate or double rotate
-			auto brotherTree = toRemove->previous->left;
+			auto previous = toRemove->previous;
+			auto brotherTree = previous->left;
 
 			if (brotherTree->right == nullptr) {
-				rotateRight(brotherTree);
+				previous = rotateRight(previous);
 			} else {
 				rotateLeft(brotherTree);
-				rotateRight(toRemove->previous);
+				previous = rotateRight(previous);
+			}
+
+			// Check if tree height changed
+			if (previous->isBalanced()) {
+				upOut(previous);
 			}
 		} else if (newBalance == 2) {
 			// Check if single rotate or double rotate
-			auto brotherTree = toRemove->previous->right;
+			auto previous = toRemove->previous;
+			auto brotherTree = previous->right;
 
 			if (brotherTree->left == nullptr) {
-				rotateLeft(brotherTree);
+				previous = rotateLeft(previous);
 			} else {
 				rotateRight(brotherTree);
-				rotateLeft(toRemove->previous);
+				previous = rotateLeft(previous);
+			}
+
+			// Check if tree height changed
+			if (previous->isBalanced()) {
+				upOut(previous);
 			}
 		}
 	} else {
@@ -300,7 +312,58 @@ void AVLTree::upIn(Node *node) {
 }
 
 void AVLTree::upOut(Node *node) {
+	if (node != nullptr && node->previous != nullptr) {
+		auto previous = node->previous;
 
+		// Check if is left or right successor
+		if (previous->left == node) {
+			// Left subtree shrank by one.
+
+			if (previous->balance == 1) {
+				// Balance would be 2 now -> rotate left
+				auto siblingTree = previous->right;
+
+				if (siblingTree->left == nullptr) {
+					// Single rotate left
+					previous = rotateLeft(previous);
+				} else {
+					rotateRight(siblingTree);
+					previous = rotateLeft(previous);
+				}
+
+				upOut(previous);
+			} else if (previous->balance == -1) {
+				previous->balance = 0;
+				upOut(previous);
+			} else {
+				// Balance would be 1 now -> height did not change.
+				previous->balance += 1;
+			}
+		} else {
+			// Right subtree shrank by one.
+
+			if (previous->balance == -1) {
+				// Balance would be -2 now -> rotate right
+				auto siblingTree = previous->left;
+
+				if (siblingTree->right == nullptr) {
+					// Single rotate right
+					previous = rotateRight(previous);
+				} else {
+					rotateLeft(siblingTree);
+					previous = rotateRight(previous);
+				}
+
+				upOut(previous);
+			} else if (previous->balance == 1) {
+				previous->balance = 0;
+				upOut(previous);
+			} else {
+				// Balance would be -1 now -> height did not change.
+				previous->balance -= 1;
+			}
+		}
+	}
 }
 
 
@@ -308,7 +371,7 @@ void AVLTree::upOut(Node *node) {
  * Rotate methods
  *******************************************************************/
 
-void AVLTree::rotateRight(Node *head) {
+AVLTree::Node *AVLTree::rotateRight(Node *head) {
 	auto previous = head->previous;
 	auto left = head->left;
 
@@ -332,9 +395,12 @@ void AVLTree::rotateRight(Node *head) {
 	// Update balance.
 	head->balance += 1;
 	left->balance += 1;
+
+	// Return new head.
+	return left;
 }
 
-void AVLTree::rotateLeft(Node *head) {
+AVLTree::Node *AVLTree::rotateLeft(Node *head) {
 	auto previous = head->previous;
 	auto right = head->right;
 
@@ -358,6 +424,9 @@ void AVLTree::rotateLeft(Node *head) {
 	// Update balance.
 	head->balance -= 1;
 	right->balance -= 1;
+
+	// Return new head.
+	return right;
 }
 
 

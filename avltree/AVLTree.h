@@ -18,7 +18,7 @@ private:
 
 		bool hasChildren() const;
 
-		bool isUnbalanced() const;
+		bool isBalanced() const;
 
 		std::vector<int> *preorder() const;  // (Hauptreihenfolge)
 		std::vector<int> *inorder() const;   // (Symmetrische Reihenfolge)
@@ -32,9 +32,9 @@ private:
 
 	void upOut(Node *);
 
-	void rotateRight(Node *);
+	Node *rotateRight(Node *);
 
-	void rotateLeft(Node *);
+	Node *rotateLeft(Node *);
 
 	bool search(const int value, const Node *node) const;
 
