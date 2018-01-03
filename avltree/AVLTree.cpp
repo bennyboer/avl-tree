@@ -214,16 +214,24 @@ void AVLTree::removeNodeBothLeaf(Node *toRemove) {
 }
 
 void AVLTree::removeNodeOneLeaf(Node *toRemove, bool isLeft) {
-	if (toRemove->previous != nullptr) {
-		if (toRemove->previous->left == toRemove) {
-			toRemove->previous->left = isLeft ? toRemove->left : toRemove->right;
-		} else if (toRemove->previous->right == toRemove) {
-			toRemove->previous->right = isLeft ? toRemove->left : toRemove->right;
+	auto previous = toRemove->previous;
+
+	if (previous != nullptr) {
+		if (previous->left == toRemove) {
+			previous->left = isLeft ? toRemove->left : toRemove->right;
+			previous->balance += 1;
+		} else if (previous->right == toRemove) {
+			previous->right = isLeft ? toRemove->left : toRemove->right;
+			previous->balance -= 1;
 		}
 	} else {
 		root = isLeft ? toRemove->left : toRemove->right;
 	}
 
+	// Height changed.
+	upOut(previous);
+
+	// Deallocate node.
 	if (isLeft) {
 		toRemove->left = nullptr;
 	} else {
