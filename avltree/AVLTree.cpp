@@ -397,6 +397,10 @@ AVLTree::Node *AVLTree::rotateRight(Node *head) {
 	}
 
 	head->left = left->right;
+	if (left->right != nullptr) {
+		head->left->previous = head;
+	}
+
 	left->right = head;
 	head->previous = left;
 
@@ -426,6 +430,10 @@ AVLTree::Node *AVLTree::rotateLeft(Node *head) {
 	}
 
 	head->right = right->left;
+	if (right->left != nullptr) {
+		head->right->previous = head;
+	}
+
 	right->left = head;
 	head->previous = right;
 
