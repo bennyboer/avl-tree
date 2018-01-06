@@ -167,6 +167,46 @@ TEST(AVLTree, Remove_RootChild) {
     EXPECT_FALSE(b.search(100));
 }
 
+TEST(AVLTree, Remove_NodeInSubtreeWithChildrenLeft) {
+    AVLTree b;
+    b.insert(50);
+    b.insert(10);
+    b.insert(9);
+    b.insert(20);
+    b.insert(80);
+    EXPECT_TRUE(b.search(10));
+    EXPECT_TRUE(b.search(50));
+    EXPECT_TRUE(b.search(9));
+    EXPECT_TRUE(b.search(20));
+    EXPECT_TRUE(b.search(80));
+    b.remove(10);
+    EXPECT_TRUE(b.search(50));
+    EXPECT_TRUE(b.search(9));
+    EXPECT_TRUE(b.search(20));
+    EXPECT_TRUE(b.search(80));
+    EXPECT_FALSE(b.search(10));
+}
+
+TEST(AVLTree, Remove_NodeInSubtreeWithChildrenRight) {
+    AVLTree b;
+    b.insert(50);
+    b.insert(10);
+    b.insert(80);
+    b.insert(60);
+    b.insert(100);
+    EXPECT_TRUE(b.search(50));
+    EXPECT_TRUE(b.search(10));
+    EXPECT_TRUE(b.search(80));
+    EXPECT_TRUE(b.search(60));
+    EXPECT_TRUE(b.search(100));
+    b.remove(80);
+    EXPECT_TRUE(b.search(50));
+    EXPECT_TRUE(b.search(10));
+    EXPECT_TRUE(b.search(60));
+    EXPECT_TRUE(b.search(100));
+    EXPECT_FALSE(b.search(80));
+}
+
 TEST(AVLTreeTest, Remove_BlanaceMinusOneRemoveLeft) {
     AVLTree b;
     b.insert(5);
