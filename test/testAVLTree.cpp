@@ -37,3 +37,87 @@ TEST(AVLTreeTest, Three_Nodes) {
     EXPECT_TRUE(b.search(123712));
     EXPECT_TRUE(b.search(215));
 }
+
+TEST(AVLTreeTest, Insert_BalanceOneInsertLeft) {
+    AVLTree b;
+    b.insert(5);
+    b.insert(7);
+    b.insert(4);
+    EXPECT_TRUE(b.search(5));
+    EXPECT_TRUE(b.search(7));
+    EXPECT_TRUE(b.search(4));
+}
+
+TEST(AVLTreeTest, Insert_BalanceMinusOneInsertRight) {
+    AVLTree b;
+    b.insert(5);
+    b.insert(4);
+    b.insert(7);
+    EXPECT_TRUE(b.search(5));
+    EXPECT_TRUE(b.search(4));
+    EXPECT_TRUE(b.search(7));
+}
+
+TEST(AVLTreeTest, Insert_BalanceZeroToOne) {
+    AVLTree b;
+    b.insert(5);
+    b.insert(4);
+    b.insert(7);
+    b.insert(8);
+    EXPECT_TRUE(b.search(5));
+    EXPECT_TRUE(b.search(4));
+    EXPECT_TRUE(b.search(7));
+    EXPECT_TRUE(b.search(8));
+}
+
+TEST(AVLTreeTest, Insert_BalanceZeroToMinnusOne) {
+    AVLTree b;
+    b.insert(5);
+    b.insert(4);
+    b.insert(7);
+    b.insert(2);
+    EXPECT_TRUE(b.search(5));
+    EXPECT_TRUE(b.search(4));
+    EXPECT_TRUE(b.search(7));
+    EXPECT_TRUE(b.search(2));
+}
+
+TEST(AVLTreeTest, Insert_RotateRight) {
+    AVLTree b;
+    b.insert(5);
+    b.insert(4);
+    b.insert(3);
+    EXPECT_TRUE(b.search(5));
+    EXPECT_TRUE(b.search(4));
+    EXPECT_TRUE(b.search(3));
+}
+
+TEST(AVLTreeTest, Insert_RotateLeftRight) {
+    AVLTree b;
+    b.insert(5);
+    b.insert(3);
+    b.insert(4);
+    EXPECT_TRUE(b.search(5));
+    EXPECT_TRUE(b.search(3));
+    EXPECT_TRUE(b.search(4));
+}
+
+TEST(AVLTreeTest, Insert_RotateOnlyLeft) {
+    AVLTree b;
+    b.insert(5);
+    b.insert(7);
+    b.insert(8);
+    EXPECT_TRUE(b.search(5));
+    EXPECT_TRUE(b.search(7));
+    EXPECT_TRUE(b.search(8));
+}
+
+TEST(AVLTreeTest, Insert_RotateRightLeft) {
+    AVLTree b;
+    b.insert(5);
+    b.insert(9);
+    b.insert(6);
+    EXPECT_TRUE(b.search(5));
+    EXPECT_TRUE(b.search(9));
+    EXPECT_TRUE(b.search(6));
+}
