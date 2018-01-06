@@ -123,6 +123,49 @@ TEST(AVLTreeTest, Insert_RotateRightLeft) {
 }
 
 //Remove Tests
+TEST(AVLTree, Remove_Root) {
+    AVLTree b;
+    b.insert(100);
+    EXPECT_TRUE(b.search(100));
+    b.remove(100);
+    EXPECT_FALSE(b.search(100));
+}
+
+TEST(AVLTree, Remove_RootLeftChild) {
+    AVLTree b;
+    b.insert(100);
+    b.insert(50);
+    EXPECT_TRUE(b.search(100));
+    EXPECT_TRUE(b.search(50));
+    b.remove(100);
+    EXPECT_TRUE(b.search(50));
+    EXPECT_FALSE(b.search(100));
+}
+
+TEST(AVLTree, Remove_RootRightChild) {
+    AVLTree b;
+    b.insert(100);
+    b.insert(200);
+    EXPECT_TRUE(b.search(100));
+    EXPECT_TRUE(b.search(200));
+    b.remove(100);
+    EXPECT_TRUE(b.search(200));
+    EXPECT_FALSE(b.search(100));
+}
+
+TEST(AVLTree, Remove_RootChild) {
+    AVLTree b;
+    b.insert(100);
+    b.insert(50);
+    b.insert(200);
+    EXPECT_TRUE(b.search(100));
+    EXPECT_TRUE(b.search(50));
+    EXPECT_TRUE(b.search(200));
+    b.remove(100);
+    EXPECT_TRUE(b.search(200));
+    EXPECT_TRUE(b.search(50));
+    EXPECT_FALSE(b.search(100));
+}
 
 TEST(AVLTreeTest, Remove_BlanaceMinusOneRemoveLeft) {
     AVLTree b;
