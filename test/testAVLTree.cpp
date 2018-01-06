@@ -228,3 +228,57 @@ TEST(AVLTreeTest, Remove_DoubleRightLeft) {
     EXPECT_TRUE(b.search(15));
     EXPECT_FALSE(b.search(2));
 }
+
+TEST(AVLTreeTest, Remove_RotateRight) {
+    AVLTree b;
+    b.insert(10);
+    b.insert(20);
+    b.insert(8);
+    b.insert(2);
+    b.insert(9);
+    EXPECT_TRUE(b.search(10));
+    EXPECT_TRUE(b.search(20));
+    EXPECT_TRUE(b.search(8));
+    EXPECT_TRUE(b.search(2));
+    EXPECT_TRUE(b.search(9));
+    b.remove(20);
+    EXPECT_TRUE(b.search(10));
+    EXPECT_FALSE(b.search(20));
+    EXPECT_TRUE(b.search(8));
+    EXPECT_TRUE(b.search(2));
+    EXPECT_TRUE(b.search(9));
+}
+
+TEST(AVLTreeTest, Remove_RotateRightBlanceMinusOne) {
+    AVLTree b;
+    b.insert(10);
+    b.insert(20);
+    b.insert(8);
+    b.insert(2);
+    EXPECT_TRUE(b.search(10));
+    EXPECT_TRUE(b.search(20));
+    EXPECT_TRUE(b.search(8));
+    EXPECT_TRUE(b.search(2));
+    b.remove(20);
+    EXPECT_TRUE(b.search(10));
+    EXPECT_FALSE(b.search(20));
+    EXPECT_TRUE(b.search(8));
+    EXPECT_TRUE(b.search(2));
+}
+
+TEST(AVLTreeTest, Remove_DoulbeRotateLeftRight) {
+    AVLTree b;
+    b.insert(10);
+    b.insert(20);
+    b.insert(8);
+    b.insert(9);
+    EXPECT_TRUE(b.search(10));
+    EXPECT_TRUE(b.search(20));
+    EXPECT_TRUE(b.search(8));
+    EXPECT_TRUE(b.search(9));
+    b.remove(20);
+    EXPECT_TRUE(b.search(10));
+    EXPECT_FALSE(b.search(20));
+    EXPECT_TRUE(b.search(8));
+    EXPECT_TRUE(b.search(9));
+}
