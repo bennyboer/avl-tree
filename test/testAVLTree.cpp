@@ -365,3 +365,29 @@ TEST(AVLTreeTest, Remove_DoulbeRotateLeftRight) {
     EXPECT_TRUE(b.search(8));
     EXPECT_TRUE(b.search(9));
 }
+
+TEST(AVLTreeTest, Remove_RotateLeftSecond) {
+    AVLTree b;
+    b.insert(10);
+    b.insert(5);
+    b.insert(30);
+    b.insert(20);
+    b.insert(50);
+    b.insert(40);
+    b.insert(60);
+    EXPECT_TRUE(b.search(10));
+    EXPECT_TRUE(b.search(5));
+    EXPECT_TRUE(b.search(30));
+    EXPECT_TRUE(b.search(20));
+    EXPECT_TRUE(b.search(50));
+    EXPECT_TRUE(b.search(40));
+    EXPECT_TRUE(b.search(60));
+    b.remove(30);
+    EXPECT_TRUE(b.search(10));
+    EXPECT_FALSE(b.search(30));
+    EXPECT_TRUE(b.search(5));
+    EXPECT_TRUE(b.search(20));
+    EXPECT_TRUE(b.search(50));
+    EXPECT_TRUE(b.search(40));
+    EXPECT_TRUE(b.search(60));
+}
