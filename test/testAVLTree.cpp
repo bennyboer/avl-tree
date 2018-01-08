@@ -697,3 +697,15 @@ TEST(AvlTreeTest, Rem2){
     EXPECT_FALSE(tree.search(10));
     EXPECT_FALSE(tree.search(9));
 }
+
+TEST(AvlTreeTest, Remove_LeftRotete){
+    AVLTree tree;
+    tree.insert(4);
+    tree.insert(3);
+    tree.insert(6);
+    tree.insert(7);
+    tree.insert(5);
+    tree.remove(3);
+    EXPECT_FALSE(tree.search(3));
+}
+
