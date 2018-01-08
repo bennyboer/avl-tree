@@ -331,7 +331,7 @@ void AVLTree::upOut(Node *node) {
 				// Balance would be 2 now -> rotate left
 				auto siblingTree = previous->right;
 
-				if (siblingTree->left == nullptr) {
+				if (siblingTree->balance == 1) {
 					// Single rotate left
 					previous = rotateLeft(previous);
 				} else {
@@ -354,7 +354,7 @@ void AVLTree::upOut(Node *node) {
 				// Balance would be -2 now -> rotate right
 				auto siblingTree = previous->left;
 
-				if (siblingTree->right == nullptr) {
+				if (siblingTree->balance == -1) {
 					// Single rotate right
 					previous = rotateRight(previous);
 				} else {
