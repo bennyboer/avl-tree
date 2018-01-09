@@ -376,6 +376,38 @@ void AVLTree::upOut(Node *node) {
 
 
 /********************************************************************
+ * isBalanced methods
+ *******************************************************************/
+
+bool AVLTree::isBalanced() const {
+    if (root != nullptr) {
+        return isBalanced_rec(root);
+    } else {
+        return true;
+    }
+}
+
+bool AVLTree::isBalanced_rec(Node *node) const {
+    if (node->left != nullptr && node->right != nullptr) {
+        return node->checkBalance() & isBalanced_rec(node->left) & isBalanced_rec(node->right);
+    }
+    else if (node->left != nullptr & node->right == nullptr) {
+        return node->checkBalance() & isBalanced_rec(node->left);
+    }
+    else if (node->left == nullptr & node->right != nullptr) {
+        return node->checkBalance() & isBalanced_rec(node->right);
+    }
+    else {
+        return node->checkBalance();
+    }
+}
+
+bool AVLTree::Node::checkBalance() const {
+        return abs(balance) <= 1;
+}
+
+
+/********************************************************************
  * Rotate methods
  *******************************************************************/
 

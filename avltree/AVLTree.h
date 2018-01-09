@@ -20,6 +20,8 @@ private:
 
 		bool isBalanced() const;
 
+        bool checkBalance() const;
+
 		std::vector<int> *preorder() const;  // (Hauptreihenfolge)
 		std::vector<int> *inorder() const;   // (Symmetrische Reihenfolge)
 		std::vector<int> *postorder() const; // (Nebenreihenfolge)
@@ -46,6 +48,10 @@ private:
 	void removeNodeOneLeaf(Node *toRemove, bool isLeft);
 	void removeNodeNoLeaf(Node *toRemove);
 
+    bool isBalanced_rec(Node *node) const;
+
+
+
 public:
 	~AVLTree();
 
@@ -54,6 +60,8 @@ public:
 	void insert(const int value);
 
 	void remove(const int value);
+
+	bool isBalanced() const;
 
 	std::vector<int> *preorder() const;  // (Hauptreihenfolge)
 	std::vector<int> *inorder() const;   // (Symmetrische Reihenfolge)
