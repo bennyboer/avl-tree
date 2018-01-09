@@ -712,21 +712,7 @@ TEST(AvlTreeTest, Remove_LeftRotate){
     EXPECT_FALSE(tree.search(2));
 }
 
-TEST(AvlTreeTest, Remove_RightRotate){
-    AVLTree tree;
-    tree.insert(20);
-    tree.insert(30);
-    tree.insert(13);
-    tree.insert(15);
-    tree.insert(16);
-    tree.insert(40);
-    tree.insert(9);
-    tree.insert(17);
-    tree.remove(40);
-    EXPECT_FALSE(tree.search(40));
-}
-
-TEST(AvlTreeTest, Remove_LeftRightRotate){
+TEST(AvlTreeTest, Remove_RightLeftRotate_UpOut){
     AVLTree tree;
     tree.insert(10);
     tree.insert(5);
@@ -740,3 +726,29 @@ TEST(AvlTreeTest, Remove_LeftRightRotate){
     EXPECT_FALSE(tree.search(2));
 }
 
+TEST(AvlTreeTest, Remove_LeftRightRotate_UpOut){
+    AVLTree tree;
+    tree.insert(20);
+    tree.insert(30);
+    tree.insert(13);
+    tree.insert(15);
+    tree.insert(16);
+    tree.insert(40);
+    tree.insert(9);
+    tree.insert(17);
+    tree.remove(40);
+    EXPECT_FALSE(tree.search(40));
+}
+
+TEST(AvlTreeTest, Remove_RightRotate_UpOut){
+    AVLTree tree;
+    tree.insert(20);
+    tree.insert(30);
+    tree.insert(13);
+    tree.insert(15);
+    tree.insert(16);
+    tree.insert(40);
+    tree.insert(9);
+    tree.remove(40);
+    EXPECT_FALSE(tree.search(40));
+}
