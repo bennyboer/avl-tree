@@ -714,6 +714,20 @@ TEST(AvlTreeTest, Remove_LeftRotate){
 
 TEST(AvlTreeTest, Remove_RightRotate){
     AVLTree tree;
+    tree.insert(20);
+    tree.insert(30);
+    tree.insert(13);
+    tree.insert(15);
+    tree.insert(16);
+    tree.insert(40);
+    tree.insert(9);
+    tree.insert(17);
+    tree.remove(40);
+    EXPECT_FALSE(tree.search(40));
+}
+
+TEST(AvlTreeTest, Remove_LeftRightRotate){
+    AVLTree tree;
     tree.insert(10);
     tree.insert(5);
     tree.insert(15);
@@ -725,3 +739,4 @@ TEST(AvlTreeTest, Remove_RightRotate){
     tree.remove(2);
     EXPECT_FALSE(tree.search(2));
 }
+
