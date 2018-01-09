@@ -137,21 +137,23 @@ void AVLTree::remove(const int value) {
 }
 
 void AVLTree::remove(const int value, Node *node) {
-	if (node->key == value) {
-		if (!node->hasChildren()) {
-			removeNodeBothLeaf(node);
-		} else if (node->left == nullptr && node->right != nullptr) {
-			removeNodeOneLeaf(node, false);
-		} else if (node->right == nullptr && node->left != nullptr) {
-			removeNodeOneLeaf(node, true);
-		} else {
-			removeNodeNoLeaf(node);
-		}
-	} else if (node->key > value) {
-		remove(value, node->left);
-	} else if (node->key < value) {
-		remove(value, node->right);
-	}
+    if(node != nullptr) {
+        if (node->key == value) {
+            if (!node->hasChildren()) {
+                removeNodeBothLeaf(node);
+            } else if (node->left == nullptr && node->right != nullptr) {
+                removeNodeOneLeaf(node, false);
+            } else if (node->right == nullptr && node->left != nullptr) {
+                removeNodeOneLeaf(node, true);
+            } else {
+                removeNodeNoLeaf(node);
+            }
+        } else if (node->key > value) {
+            remove(value, node->left);
+        } else if (node->key < value) {
+            remove(value, node->right);
+        }
+    }
 }
 
 void AVLTree::removeNodeBothLeaf(Node *toRemove) {
