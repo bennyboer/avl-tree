@@ -778,4 +778,7 @@ TEST(AvlTreeTest, Remove_RightRotate_UpOut){
     tree.remove(40);
     EXPECT_FALSE(tree.search(40));
     EXPECT_TRUE(tree.isBalanced());
+    EXPECT_THAT(*tree.preorder(), testing::ElementsAre(15, 13, 9, 20, 16, 30));
+    EXPECT_THAT(*tree.inorder(), testing::ElementsAre(9, 13, 15, 16, 20, 30));
+    EXPECT_THAT(*tree.postorder(), testing::ElementsAre(9, 13, 16, 30, 20, 15));
 }
