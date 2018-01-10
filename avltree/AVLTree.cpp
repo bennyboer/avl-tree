@@ -139,8 +139,6 @@ void AVLTree::remove(const int value) {
 void AVLTree::remove(const int value, Node *node) {
     if(node != nullptr) {
         if (node->key == value) {
-            if(node->previous != nullptr) {
-            }
             if (!node->hasChildren()) {
                 removeNodeBothLeaf(node);
             } else if (node->left == nullptr && node->right != nullptr) {
