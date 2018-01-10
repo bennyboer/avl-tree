@@ -139,6 +139,8 @@ void AVLTree::remove(const int value) {
 void AVLTree::remove(const int value, Node *node) {
     if(node != nullptr) {
         if (node->key == value) {
+            if(node->previous != nullptr) {
+            }
             if (!node->hasChildren()) {
                 removeNodeBothLeaf(node);
             } else if (node->left == nullptr && node->right != nullptr) {
@@ -261,6 +263,19 @@ void AVLTree::removeNodeNoLeaf(Node *toRemove) {
 
 	// Exchange node with follower node
 	auto newNode = new Node(key, toRemove->left, toRemove->right, toRemove->previous, toRemove->balance);
+
+    ///////////////////////
+    //neu versuch zu fixen
+    ///////////////////////
+    if(toRemove->right != nullptr) {
+        toRemove->right->previous = newNode;
+    }
+    if(toRemove->left != nullptr) {
+        toRemove->left->previous = newNode;
+    }
+    //////////////////////
+    //////////////////////
+
 	if (toRemove->previous != nullptr) {
 		if (toRemove->previous->left == toRemove) {
 			toRemove->previous->left = newNode;
