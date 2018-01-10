@@ -40,6 +40,9 @@ script:
 
 after_success:
   - coveralls --root .. -E ".*googletest-src.*" -E ".*gtest.*" -E ".*external.*" -E ".*CMakeFiles.*" -E ".*test/.*.cpp.*"
+  - cd ..
+  - cp ./build/doc ./doc
+  - push.sh
 
 cache:
   directories:
