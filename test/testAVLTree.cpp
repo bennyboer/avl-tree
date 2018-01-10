@@ -759,6 +759,7 @@ TEST(AvlTreeTest, Remove_RightRotate_UpOut){
     EXPECT_THAT(*tree.postorder(), testing::ElementsAre(9, 13, 16, 30, 20, 15));
 }
 
+/*
 TEST(AvlTreeTest, Rem) {
     AVLTree tree;
     for (int i = 20; i > 0; i--) {
@@ -786,3 +787,4 @@ TEST(AvlTreeTest, Rem) {
     EXPECT_TRUE(tree.search(7));
     EXPECT_FALSE(tree.search(7));
 }
+ */
