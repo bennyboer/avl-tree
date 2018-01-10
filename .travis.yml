@@ -20,6 +20,13 @@ addons:
     sources:
       - ubuntu-toolchain-r-test
 
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  on:
+      branch: master
+
 before_install:
   - pip install --user cpp-coveralls
 
@@ -37,12 +44,10 @@ script:
   - make
   - test/testAVLTree
   - make doc
+  - cd doc
 
 after_success:
   - coveralls --root .. -E ".*googletest-src.*" -E ".*gtest.*" -E ".*external.*" -E ".*CMakeFiles.*" -E ".*test/.*.cpp.*"
-  - cd ..
-  - cp ./build/doc ./doc
-  - push.sh
 
 cache:
   directories:
