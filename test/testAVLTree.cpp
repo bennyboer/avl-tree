@@ -537,6 +537,7 @@ TEST(AvlTreeTest, RemoveItemNotExist) {
     tree.remove(0);
     EXPECT_FALSE(tree.search(0));
     EXPECT_TRUE(tree.search(1));
+    EXPECT_TRUE(tree.isBalanced());
 }
 
 
@@ -680,31 +681,6 @@ TEST(AvlTreeTest, Remove_RightLeft) {
     EXPECT_TRUE(tree.isBalanced());
 }
 
-TEST(AvlTreeTest, Rem) {
-    AVLTree tree;
-    for (int i = 20; i > 0; i--) {
-        tree.insert(i);
-    }
-    tree.remove(6);
-    tree.remove(18);
-    tree.remove(4);
-    tree.remove(1);
-    tree.remove(20);
-    tree.remove(12);
-    tree.remove(9);
-    tree.remove(6);
-    tree.remove(2);
-    EXPECT_FALSE(tree.search(6));
-    EXPECT_FALSE(tree.search(18));
-    EXPECT_FALSE(tree.search(4));
-    EXPECT_FALSE(tree.search(1));
-    EXPECT_FALSE(tree.search(20));
-    EXPECT_FALSE(tree.search(12));
-    EXPECT_FALSE(tree.search(9));
-    EXPECT_FALSE(tree.search(6));
-    EXPECT_FALSE(tree.search(2));
-}
-
 TEST(AvlTreeTest, Rem2){
     AVLTree tree;
     for (int i = 10; i > 0; i--) {
@@ -781,4 +757,32 @@ TEST(AvlTreeTest, Remove_RightRotate_UpOut){
     EXPECT_THAT(*tree.preorder(), testing::ElementsAre(15, 13, 9, 20, 16, 30));
     EXPECT_THAT(*tree.inorder(), testing::ElementsAre(9, 13, 15, 16, 20, 30));
     EXPECT_THAT(*tree.postorder(), testing::ElementsAre(9, 13, 16, 30, 20, 15));
+}
+
+TEST(AvlTreeTest, Rem) {
+    AVLTree tree;
+    for (int i = 20; i > 0; i--) {
+        tree.insert(i);
+    }
+    tree.remove(6);
+    tree.remove(18);
+    tree.remove(4);
+    tree.remove(1);
+    tree.remove(20);
+    tree.remove(12);
+    tree.remove(9);
+    tree.remove(6);
+    tree.remove(7);
+    //Fehler entsteht beim letzten remove
+    EXPECT_TRUE(tree.isBalanced());
+    EXPECT_FALSE(tree.search(6));
+    EXPECT_FALSE(tree.search(18));
+    EXPECT_FALSE(tree.search(4));
+    EXPECT_FALSE(tree.search(1));
+    EXPECT_FALSE(tree.search(20));
+    EXPECT_FALSE(tree.search(12));
+    EXPECT_FALSE(tree.search(9));
+    EXPECT_FALSE(tree.search(6));
+    EXPECT_TRUE(tree.search(7));
+    EXPECT_FALSE(tree.search(7));
 }
