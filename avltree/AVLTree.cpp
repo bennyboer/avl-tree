@@ -217,21 +217,24 @@ void AVLTree::removeNodeBothLeaf(Node *toRemove) {
 
 void AVLTree::removeNodeOneLeaf(Node *toRemove, bool isLeft) {
 	auto previous = toRemove->previous;
+	Node *newNode = nullptr;
 
 	if (previous != nullptr) {
 		if (previous->left == toRemove) {
-			previous->left = isLeft ? toRemove->left : toRemove->right;
-			previous->balance += 1;
+			newNode = isLeft ? toRemove->left : toRemove->right;
+			previous->left = newNode;
+			previous->left->previous = previous;
 		} else if (previous->right == toRemove) {
-			previous->right = isLeft ? toRemove->left : toRemove->right;
-			previous->balance -= 1;
+			newNode = isLeft ? toRemove->left : toRemove->right;
+			previous->right = newNode;
+			previous->right->previous = previous;
 		}
 	} else {
 		root = isLeft ? toRemove->left : toRemove->right;
 	}
 
 	// Height changed.
-	upOut(previous);
+	upOut(newNode);
 
 	// Deallocate node.
 	if (isLeft) {
@@ -330,7 +333,6 @@ void AVLTree::upOut(Node *node) {
 			// Left subtree shrank by one.
 
 			if (previous->balance == 1) {
-				// Balance would be 2 now -> rotate left
 				auto siblingTree = previous->right;
 
 				if (siblingTree->balance == 1) {
@@ -353,7 +355,6 @@ void AVLTree::upOut(Node *node) {
 			// Right subtree shrank by one.
 
 			if (previous->balance == -1) {
-				// Balance would be -2 now -> rotate right
 				auto siblingTree = previous->left;
 
 				if (siblingTree->balance == -1) {
