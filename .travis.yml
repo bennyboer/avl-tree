@@ -43,11 +43,9 @@ script:
   - sonar-scanner -Dsonar.login=$SONAR_TOKEN
   - make
   - test/testAVLTree
+  - coveralls --root .. -E ".*googletest-src.*" -E ".*gtest.*" -E ".*external.*" -E ".*CMakeFiles.*" -E ".*test/.*.cpp.*"
   - make doc
   - cd doc/html
-
-after_success:
-  - coveralls --root .. -E ".*googletest-src.*" -E ".*gtest.*" -E ".*external.*" -E ".*CMakeFiles.*" -E ".*test/.*.cpp.*"
 
 cache:
   directories:
