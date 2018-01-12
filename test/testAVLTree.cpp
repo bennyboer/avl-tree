@@ -384,6 +384,22 @@ TEST(AvlTreeTest, Remove_LoopInsertLowToHigh_toRemoveIsLeft) {
 }
 
 
+TEST(AvlTreeTest, Remove_LoopTenToZero){
+    AVLTree t;
+    for (int i = 10; i > 0; i--) {
+        t.insert(i);
+    }
+    t.remove(4);
+    t.remove(2);
+    t.remove(10);
+    t.remove(9);
+    EXPECT_FALSE(t.search(4));
+    EXPECT_FALSE(t.search(2));
+    EXPECT_FALSE(t.search(10));
+    EXPECT_FALSE(t.search(9));
+    EXPECT_TRUE(t.isBalanced());
+}
+
 TEST(AvlTreeTest, Remove_BothLeaf_RoatetLeft){
     AVLTree t;
     t.insert(10);
