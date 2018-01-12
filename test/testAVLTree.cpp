@@ -357,6 +357,32 @@ TEST(AvlTreeTest, Remove_LoopInsertLowToHigh) {
     EXPECT_FALSE(t.search(7));
 }
 
+TEST(AvlTreeTest, Remove_LoopInsertLowToHigh_toRemoveIsLeft) {
+    AVLTree t;
+    for (int i = 20; i > 0; i--) {
+        t.insert(i);
+    }
+    t.remove(6);
+    t.remove(18);
+    t.remove(4);
+    t.remove(1);
+    t.remove(20);
+    t.remove(12);
+    t.remove(17);
+    t.remove(14);
+    t.remove(16);
+    EXPECT_TRUE(t.isBalanced());
+    EXPECT_FALSE(t.search(6));
+    EXPECT_FALSE(t.search(18));
+    EXPECT_FALSE(t.search(4));
+    EXPECT_FALSE(t.search(1));
+    EXPECT_FALSE(t.search(20));
+    EXPECT_FALSE(t.search(12));
+    EXPECT_FALSE(t.search(17));
+    EXPECT_FALSE(t.search(14));
+    EXPECT_FALSE(t.search(16));
+}
+
 
 TEST(AvlTreeTest, Remove_LoopTenToZero){
     AVLTree t;
@@ -371,5 +397,18 @@ TEST(AvlTreeTest, Remove_LoopTenToZero){
     EXPECT_FALSE(t.search(2));
     EXPECT_FALSE(t.search(10));
     EXPECT_FALSE(t.search(9));
+    EXPECT_TRUE(t.isBalanced());
+}
+
+TEST(AvlTreeTest, Remove_BothLeaf_RoatetLeft){
+    AVLTree t;
+    t.insert(10);
+    t.insert(8);
+    t.insert(15);
+    t.insert(13);
+    t.insert(17);
+    t.insert(18);
+    t.remove(13);
+    EXPECT_FALSE(t.search(13));
     EXPECT_TRUE(t.isBalanced());
 }
