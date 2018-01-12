@@ -359,28 +359,24 @@ TEST(AvlTreeTest, Remove_LoopInsertLowToHigh) {
 
 TEST(AvlTreeTest, Remove_LoopInsertLowToHigh_toRemoveIsLeft) {
     AVLTree t;
-    for (int i = 20; i > 0; i--) {
-        t.insert(i);
-    }
-    t.remove(6);
-    t.remove(18);
-    t.remove(4);
-    t.remove(1);
-    t.remove(20);
-    t.remove(12);
-    t.remove(17);
-    t.remove(14);
-    t.remove(16);
+    t.insert(30);
+    t.insert(20);
+    t.insert(17);
+    t.insert(10);
+    t.insert(25);
+    t.insert(15);
+    t.insert(19);
+    t.insert(5);
+    t.insert(11);
+    t.insert(23);
+    t.insert(14);
+    t.insert(10);
+    t.insert(3);
+    t.insert(12);
+    t.remove(10);
     EXPECT_TRUE(t.isBalanced());
-    EXPECT_FALSE(t.search(6));
-    EXPECT_FALSE(t.search(18));
-    EXPECT_FALSE(t.search(4));
-    EXPECT_FALSE(t.search(1));
-    EXPECT_FALSE(t.search(20));
-    EXPECT_FALSE(t.search(12));
-    EXPECT_FALSE(t.search(17));
-    EXPECT_FALSE(t.search(14));
-    EXPECT_FALSE(t.search(16));
+    EXPECT_FALSE(t.search(10));
+
 }
 
 
