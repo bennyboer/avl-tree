@@ -384,31 +384,16 @@ TEST(AvlTreeTest, Remove_LoopInsertLowToHigh_toRemoveIsLeft) {
 }
 
 
-TEST(AvlTreeTest, Remove_LoopTenToZero){
-    AVLTree t;
-    for (int i = 10; i > 0; i--) {
-        t.insert(i);
-    }
-    t.remove(4);
-    t.remove(2);
-    t.remove(10);
-    t.remove(9);
-    EXPECT_FALSE(t.search(4));
-    EXPECT_FALSE(t.search(2));
-    EXPECT_FALSE(t.search(10));
-    EXPECT_FALSE(t.search(9));
-    EXPECT_TRUE(t.isBalanced());
-}
-
 TEST(AvlTreeTest, Remove_BothLeaf_RoatetLeft){
     AVLTree t;
     t.insert(10);
-    t.insert(8);
-    t.insert(15);
     t.insert(13);
-    t.insert(17);
-    t.insert(18);
-    t.remove(13);
-    EXPECT_FALSE(t.search(13));
+    t.insert(5);
+    t.insert(3);
+    t.insert(6);
+    t.insert(14);
+    t.insert(8);
+    t.remove(14);
+    EXPECT_FALSE(t.search(14));
     EXPECT_TRUE(t.isBalanced());
 }
