@@ -2,6 +2,9 @@
 
 Eine AVL Baum Implementierung in C++ ([Github Repository](https://github.com/ob-algdati-ws17/blatt-7-aufgabe-1-bullshitking) | [Github Page](https://ob-algdati-ws17.github.io/blatt-7-aufgabe-1-bullshitking/)).
 
+(https://github.com/maxiking203)
+(https://github.com/BullshitPingu)
+
 ## Build Prozess
 
 Travis CI wird verwendet ([hier](https://travis-ci.org/ob-algdati-ws17/blatt-7-aufgabe-1-bullshitking)).
