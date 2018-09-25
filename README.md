@@ -1,5 +1,7 @@
 # AVL Baum
 
+> A AVL Tree implementation in C++.
+
 Eine AVL Baum Implementierung in C++ ([Github Repository](https://github.com/ob-algdati-ws17/blatt-7-aufgabe-1-bullshitking) | [Github Page](https://ob-algdati-ws17.github.io/blatt-7-aufgabe-1-bullshitking/)).
 
 (https://github.com/maxiking203)
